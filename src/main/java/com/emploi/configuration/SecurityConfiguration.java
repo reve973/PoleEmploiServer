@@ -59,14 +59,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 	            .and()
 	            .authorizeRequests()
-	            .antMatchers("/api/auth/login").permitAll()
+	            .antMatchers("/test", "/api/auth/login", "/api/contrat/get/all").permitAll()
 	            .anyRequest().authenticated()
 	            .and()
 	            .cors();
 			http.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
 		} else {
 			http.csrf().disable();
-			http.sessionManagement().and().authorizeRequests().antMatchers("/login", "/api/**", "/").permitAll().anyRequest()
+			http.sessionManagement().and().authorizeRequests().antMatchers("**/*.html", "/login", "/api/**", "/").permitAll().anyRequest()
 					.authenticated().and().formLogin().loginPage("/login")./*defaultSuccessUrl("/login?success")
 					.failureUrl("/login?failure").*/permitAll().and().logout().invalidateHttpSession(true)
 					/*.logoutUrl("/login?logout")*/.permitAll();
